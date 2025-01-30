@@ -1,0 +1,5 @@
+.DS_Store
+Thumbs.db
+.idea/workspace.xml
+node_modules
+packages
