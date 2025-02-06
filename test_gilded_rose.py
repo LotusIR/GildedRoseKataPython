@@ -22,6 +22,36 @@ class GildedRoseTest(unittest.TestCase):
         all_items = gilded_rose.get_items()
         self.assertEquals(["Sulfuras"], all_items)
 
+    # tests whether normal items's quality degrades correcly after sellin day
+    def test_twice_quality_degrades(self):
+        items = [Item("Normal", 1, 10)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality() # quality 10->9
+        gilded_rose.update_quality() # quality 9->7
+        normal_item = items[0]
+        self.assertEquals(normal_item.quality, 8)
+
+    # tests whether backstage pass's quality is correctly updated before sellin
+    def test_backstage_pass_quality_before_sellin(self):
+        items = [Item("backstage passes", 1, 3)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEquals(items[0].quality, 6)
+
+    # tests whether backstage pass's quality is correctly updated after sellin
+    def test_backstage_pass_quality_after_sellin(self):
+        items = [Item("backstage passes", 1, 5)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        gilded_rose.update_quality()
+        self.assertEquals(items[0].quality, 0)
+
+    # tests giled_rose sell function
+    def test_gilded_rose_sell_item(self):
+        items = [Item("A", 1, 5)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.sell("A", 1)
+        self.assertEquals(len(items), 0)
 
 
 if __name__ == '__main__':
